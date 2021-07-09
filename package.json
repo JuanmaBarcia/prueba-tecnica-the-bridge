@@ -1,0 +1,30 @@
+{
+  "name": "prueba-tenica-the-bridge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuanmaBarcia/prueba-tenica-the-bridge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JuanmaBarcia/prueba-tenica-the-bridge/issues"
+  },
+  "homepage": "https://github.com/JuanmaBarcia/prueba-tenica-the-bridge#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mariadb": "^2.5.4"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
