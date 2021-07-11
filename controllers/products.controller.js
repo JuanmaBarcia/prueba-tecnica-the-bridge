@@ -10,7 +10,7 @@ const routes = {
     }
   },
   getProduct: async (req, res) => {
-    const id = req.query.id;
+    const id = req.params.id;
     try {
       let product = await Product.getProduct(id);
       return res.status(200).json(product);

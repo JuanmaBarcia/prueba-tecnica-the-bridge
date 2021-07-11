@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Products.scss";
 
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,10 +15,11 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
+import Rating from "@material-ui/lab/Rating";
 
 const getProducts = async () => await axios.get("/api/products");
 const getManufacturerProducts = async (id) =>
-  await axios.get(`/api//manufacturer/${id}`);
+  await axios.get(`/api/manufacturer/${id}`);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -123,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Products(props) {
+function Products() {
   const classes = useStyles();
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("relevancia");
@@ -141,7 +143,7 @@ function Products(props) {
       if (path === "products") {
         products = await getProducts();
       } else {
-        products = await getManufacturerProducts(1);
+        products = await getManufacturerProducts(path);
       }
       const data = products.data.map((product) => ({
         id: product.id_product,
@@ -174,6 +176,7 @@ function Products(props) {
 
   return (
     <div className='Products'>
+      <h1>Cámaras</h1>
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <TableContainer>
@@ -189,19 +192,20 @@ function Products(props) {
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
-                    const labelId = `productID_${row.id}`;
                     const labelHref = `/product/${row.id}`;
 
                     return (
                       <TableRow hover tabIndex={-1} key={row.name}>
-                        <TableCell
-                          component='a'
-                          href={labelHref}
-                          id={labelId}
-                          scope='row'>
-                          {row.name}
+                        <TableCell>
+                          <Link to={labelHref}>{row.name}</Link>
                         </TableCell>
-                        <TableCell align='right'>{row.relevancia}</TableCell>
+                        <TableCell className='rating'>
+                          <Rating
+                            name='half-rating'
+                            precision={0.5}
+                            value={row.relevancia}
+                          />
+                        </TableCell>
                         <TableCell align='right'>{row.precio} €</TableCell>
                       </TableRow>
                     );
