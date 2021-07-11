@@ -1,0 +1,29 @@
+@import "./Sass/colors";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+$viewport-phone: 95%;
+$viewport-tablet: 564px;
+$viewport-desktop: 960px;
+
+.wrapper {
+  margin: 0 auto;
+  width: $viewport-phone;
+}
+
+@media screen and (min-width: $viewport-tablet + 1px) and (max-width: $viewport-desktop - 1px) {
+  .wrapper {
+    width: ($viewport-tablet) - 25px;
+  }
+}
+
+@media screen and (min-width: $viewport-desktop + 1px) {
+  .wrapper {
+    width: ($viewport-desktop) - 50px;
+  }
+}
