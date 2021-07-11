@@ -1,7 +1,19 @@
-/*
- * Nav css File
-*/
-
 .Nav {
-    /* propertys here */
+  button.MuiButtonBase-root.MuiIconButton-root {
+    padding: 5px;
+  }
+  button.MuiButtonBase-root.MuiButton-root.MuiButton-text {
+    min-width: unset;
+    padding: 6px;
+  }
+}
+.MuiListItem-button {
+  text-align: right !important;
+}
+.MuiListItemIcon-root {
+  color: rgba(0, 0, 0, 0.54);
+  display: inline-flex;
+  min-width: 56px;
+  flex-shrink: 0;
+  justify-content: center;
 }

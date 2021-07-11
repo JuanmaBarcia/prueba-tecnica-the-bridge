@@ -9,20 +9,6 @@ const pool = mariadb.createPool({
 });
 
 const Product = {
-  createProduct: async (producct_data) => {
-    let conn;
-    let res;
-    try {
-      conn = await pool.getConnection();
-      const sql_query = "INSERT INTO users (email,password) value (?,?)";
-      res = await conn.query(sql_query, user_data);
-    } catch (err) {
-      res = { error: "El usuario ya existe" };
-    } finally {
-      if (conn) conn.end();
-    }
-    return res;
-  },
   getProduct: async (id) => {
     let conn;
     let res;
@@ -43,20 +29,6 @@ const Product = {
       conn = await pool.getConnection();
       const sql_query = "SELECT * FROM users";
       const res = await conn.query(sql_query);
-    } catch (err) {
-      throw err;
-    } finally {
-      if (conn) return conn.end();
-    }
-  },
-  removeProduct: async (id) => {
-    try {
-      conn = await pool.getConnection();
-      const sql_query =
-        "DELETE FROM `favorite_films` WHERE id_film = (SELECT f.id_film FROM favorite_films as f INNER JOIN users as u ON f.id_user = u.id_user WHERE u.email=? AND f.api_id_film = ?)";
-      const res = await conn.query(sql_query, [email, api_id_film]);
-      console.log(res);
-      console.log(`borrada pelicula con id ${api_id_film} del user ${email}`);
     } catch (err) {
       throw err;
     } finally {

@@ -10,9 +10,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import HomeIcon from "@material-ui/icons/Home";
-import EditIcon from "@material-ui/icons/Edit";
+import StorefrontIcon from "@material-ui/icons/Storefront";
+import BusinessIcon from "@material-ui/icons/Business";
 
 const useStyles = () => ({
   list: {
@@ -50,18 +51,18 @@ function Nav() {
       <List>
         <Link to='/products'>
           <ListItem button>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
             <ListItemText>Productos</ListItemText>
+            <ListItemIcon>
+              <StorefrontIcon />
+            </ListItemIcon>
           </ListItem>
         </Link>
         <Link to='/manufacturers'>
           <ListItem button>
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
             <ListItemText>Fabricantes</ListItemText>
+            <ListItemIcon>
+              <BusinessIcon />
+            </ListItemIcon>
           </ListItem>
         </Link>
       </List>
@@ -71,7 +72,9 @@ function Nav() {
     <div className='Nav'>
       <React.Fragment key='top'>
         <Button onClick={toggleDrawer("top", true)}>
-          <MenuIcon />
+          <IconButton className={classes.iconButton} aria-label='menu'>
+            <MenuIcon />
+          </IconButton>
         </Button>
         <Drawer
           anchor='top'
