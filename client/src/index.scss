@@ -24,6 +24,6 @@ $viewport-desktop: 960px;
 
 @media screen and (min-width: $viewport-desktop + 1px) {
   .wrapper {
-    width: ($viewport-desktop) - 50px;
+    width: ($viewport-desktop) - 60px;
   }
 }
