@@ -13,8 +13,16 @@ function Main() {
         <Route exact path='/'>
           <Redirect to='/products' />
         </Route>
-        <Route path='/products' render={() => <Products />} />
+        <Route
+          path='/products'
+          component={Products}
+          // render={() => <Products data='products' exact />}
+        />
         <Route path='/manufacturers' render={() => <Manufacturers />} />
+        <Route
+          path='/manufacturer/:id'
+          render={() => <Products data='manufacturer' />}
+        />
       </Switch>
     </div>
   );

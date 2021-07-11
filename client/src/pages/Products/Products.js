@@ -16,10 +16,8 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 
 const getProducts = async () => await axios.get("/api/products");
-
-function createData(name, relevancia, precio, id) {
-  return { name, relevancia, precio, id };
-}
+const getManufacturerProducts = async (id) =>
+  await axios.get(`/api//manufacturer/${id}`);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -28,7 +26,6 @@ function descendingComparator(a, b, orderBy) {
   if (b[orderBy] > a[orderBy]) {
     return 1;
   }
-
   return 0;
 }
 
@@ -126,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Products() {
+function Products(props) {
   const classes = useStyles();
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("relevancia");
@@ -134,24 +131,28 @@ function Products() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
 
+  const path =
+    window.location.href.split("/")[window.location.href.split("/").length - 1];
+  console.log(path);
+
   useEffect(() => {
     const getData = async () => {
-      const products = await getProducts();
-      const data = products.data.map((product) =>
-        createData(
-          product.manufacturer + " " + product.product,
-          product.rating,
-          product.price,
-          product.id_product
-        )
-      );
-      console.log(products);
-      console.log(data);
-
+      let products;
+      if (path === "products") {
+        products = await getProducts();
+      } else {
+        products = await getManufacturerProducts(1);
+      }
+      const data = products.data.map((product) => ({
+        id: product.id_product,
+        name: product.manufacturer + " " + product.product,
+        relevancia: product.rating,
+        precio: product.price,
+      }));
       setRows(data);
     };
     getData();
-  }, []);
+  }, [path]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -187,7 +188,7 @@ function Products() {
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
+                  .map((row) => {
                     const labelId = `productID_${row.id}`;
                     const labelHref = `/product/${row.id}`;
 
