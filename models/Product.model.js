@@ -14,8 +14,9 @@ const Product = {
     let res;
     try {
       conn = await pool.getConnection();
-      const sql_query = "SELECT * FROM users WHERE email = ?";
-      res = await conn.query(sql_query, [email]);
+      const sql_query =
+        "SELECT p.id_product,p.product,p.image,p.rating,p.price,m.manufacturer,m.cif,m.address FROM products as p INNER JOIN manufactures as m ON p.manufacturer_id = m.id_manufacturer WHERE p.id_product = ?";
+      res = await conn.query(sql_query, [id]);
     } catch (err) {
       res = err.message;
     } finally {
@@ -25,15 +26,17 @@ const Product = {
   },
   getAllProducts: async () => {
     let conn;
+    let res;
     try {
       conn = await pool.getConnection();
-      const sql_query = "SELECT * FROM users";
-      const res = await conn.query(sql_query);
+      const sql_query = "SELECT * FROM products";
+      res = await conn.query(sql_query);
     } catch (err) {
       throw err;
     } finally {
-      if (conn) return conn.end();
+      if (conn) conn.end();
     }
+    return res;
   },
 };
 
