@@ -2,7 +2,7 @@ const router = require("express").Router();
 const products = require("../controllers/products.controller");
 
 router.get("/products", products.getProducts);
-router.get("/product", products.getProduct);
+router.get("/product/:id", products.getProduct);
 router.get("/manufacturers", products.getManufacturers);
 router.get("/manufacturer/:id", products.getManufacturerProducts);
 

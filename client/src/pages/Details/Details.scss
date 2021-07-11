@@ -1,0 +1,13 @@
+.Details {
+  .MuiCardContent-root {
+    // display: flex;
+    // flex-wrap: wrap;
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
+    h3 {
+      margin-bottom: 10px;
+    }
+  }
+}
