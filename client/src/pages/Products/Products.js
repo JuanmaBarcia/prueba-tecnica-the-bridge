@@ -141,7 +141,7 @@ function Products(props) {
       if (path === "products") {
         products = await getProducts();
       } else {
-        products = await getManufacturerProducts(1);
+        products = await getManufacturerProducts(path);
       }
       const data = products.data.map((product) => ({
         id: product.id_product,
@@ -174,6 +174,7 @@ function Products(props) {
 
   return (
     <div className='Products'>
+      <h1>Cámaras</h1>
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <TableContainer>

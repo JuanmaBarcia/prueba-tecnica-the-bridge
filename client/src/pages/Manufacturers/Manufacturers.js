@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Manufacturers.scss";
 
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
@@ -123,8 +124,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Manufacturers() {
   const classes = useStyles();
-  const [order, setOrder] = useState("desc");
-  const [orderBy, setOrderBy] = useState("relevancia");
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("name");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
@@ -163,6 +164,7 @@ function Manufacturers() {
 
   return (
     <div className='Manufacturers'>
+      <h1>Fabricantes</h1>
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <TableContainer>
@@ -178,19 +180,14 @@ function Manufacturers() {
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
-                    const labelId = `manufacturerID_${row.id}`;
                     const labelHref = `/manufacturer/${row.id}`;
 
                     return (
                       <TableRow hover tabIndex={-1} key={row.name}>
-                        <TableCell
-                          component='a'
-                          href={labelHref}
-                          id={labelId}
-                          scope='row'>
-                          {row.name}
+                        <TableCell>
+                          <Link to={labelHref}>{row.name}</Link>
                         </TableCell>
-                        <TableCell align='right'>{row.cif}</TableCell>
+                        <TableCell align='center'>{row.cif}</TableCell>
                         <TableCell align='right'>{row.address}</TableCell>
                       </TableRow>
                     );
