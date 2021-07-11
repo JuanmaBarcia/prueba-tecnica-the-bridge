@@ -29,7 +29,8 @@ const Product = {
     let res;
     try {
       conn = await pool.getConnection();
-      const sql_query = "SELECT * FROM products";
+      const sql_query =
+        "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM products as p INNER JOIN manufactures as m ON p.manufacturer_id = m.id_manufacturer";
       res = await conn.query(sql_query);
     } catch (err) {
       throw err;
