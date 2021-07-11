@@ -4,7 +4,7 @@ const routes = {
   getProducts: async (req, res) => {
     try {
       let products = await Product.getAllProducts();
-      return res.status(201).json(products);
+      return res.status(200).json(products);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -13,7 +13,7 @@ const routes = {
     const id = req.query.id;
     try {
       let product = await Product.getProduct(id);
-      return res.status(201).json(product);
+      return res.status(200).json(product);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
