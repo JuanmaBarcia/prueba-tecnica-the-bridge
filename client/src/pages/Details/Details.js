@@ -18,13 +18,11 @@ function Details() {
 
   const path =
     window.location.href.split("/")[window.location.href.split("/").length - 1];
-  console.log(path);
 
   useEffect(() => {
     const getData = async () => {
       const details = await getProductDetails(path);
       const data = details.data[0];
-      console.log(data);
       setDetails(data);
       setValue(data.rating);
     };

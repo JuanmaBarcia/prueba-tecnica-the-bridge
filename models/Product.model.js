@@ -44,7 +44,8 @@ const Product = {
     let res;
     try {
       conn = await pool.getConnection();
-      const sql_query = "SELECT * FROM manufactures";
+      const sql_query =
+        "SELECT id_manufacturer, manufacturer, cif, address FROM manufactures";
       res = await conn.query(sql_query);
     } catch (err) {
       throw err;
@@ -56,11 +57,41 @@ const Product = {
   getManufacturerProducts: async (id) => {
     let conn;
     let res;
+    if (isNaN(parseInt(id))) {
+      try {
+        conn = await pool.getConnection();
+        const sql_query =
+          "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.manufacturer = ?";
+        res = await conn.query(sql_query, [id]);
+      } catch (err) {
+        throw err;
+      } finally {
+        if (conn) conn.end();
+      }
+      return res;
+    } else {
+      try {
+        conn = await pool.getConnection();
+        const sql_query =
+          "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.id_manufacturer = ?";
+        res = await conn.query(sql_query, [id]);
+      } catch (err) {
+        throw err;
+      } finally {
+        if (conn) conn.end();
+      }
+      return res;
+    }
+  },
+  getSearchProducts: async (search) => {
+    let conn;
+    let res;
+
     try {
       conn = await pool.getConnection();
       const sql_query =
-        "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.id_manufacturer = ?";
-      res = await conn.query(sql_query, [id]);
+        "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.manufacturer REGEXP ? OR p.product REGEXP ?";
+      res = await conn.query(sql_query, [search, search]);
     } catch (err) {
       throw err;
     } finally {
