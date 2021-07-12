@@ -36,5 +36,14 @@ const routes = {
       res.status(500).json({ message: err.message });
     }
   },
+  getSearchProducts: async (req, res) => {
+    const key = req.params.key;
+    try {
+      let products = await Product.getSearchProducts(key);
+      return res.status(200).json(products);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
 };
 module.exports = routes;

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Products.scss";
 
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { appContext } from "../../context/appContext";
 
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,10 +16,6 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import Rating from "@material-ui/lab/Rating";
-
-const getProducts = async () => await axios.get("/api/products");
-const getManufacturerProducts = async (id) =>
-  await axios.get(`/api/manufacturer/${id}`);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -125,36 +121,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Products() {
+function Products(props) {
+  const {
+    getProducts,
+    getManufacturerProducts,
+    getSearchProducts,
+    setResults,
+  } = useContext(appContext);
+
   const classes = useStyles();
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("relevancia");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const [manufacturer, setManufacturer] = useState("");
 
   const path =
     window.location.href.split("/")[window.location.href.split("/").length - 1];
-  console.log(path);
+  const pathSearch =
+    window.location.href.split("/")[window.location.href.split("/").length - 2];
 
   useEffect(() => {
     const getData = async () => {
       let products;
       if (path === "products") {
         products = await getProducts();
+      } else if (pathSearch === "search") {
+        products = await getSearchProducts(props.data);
       } else {
         products = await getManufacturerProducts(path);
+        setManufacturer(products.data[0].manufacturer);
       }
-      const data = products.data.map((product) => ({
-        id: product.id_product,
-        name: product.manufacturer + " " + product.product,
-        relevancia: product.rating,
-        precio: product.price,
-      }));
-      setRows(data);
+      setResults(products.data);
+      if (products.length !== 0) {
+        const data = products.data.map((product) => ({
+          id: product.id_product,
+          name: product.manufacturer + " " + product.product,
+          relevancia: product.rating,
+          precio: product.price,
+        }));
+        setRows(data);
+      }
     };
     getData();
-  }, [path]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window.location.href]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -176,7 +188,7 @@ function Products() {
 
   return (
     <div className='Products'>
-      <h1>Cámaras</h1>
+      <h1>{props.title ? props.title : manufacturer}</h1>
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <TableContainer>
