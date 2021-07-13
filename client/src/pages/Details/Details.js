@@ -14,6 +14,7 @@ const getProductDetails = async (id) => await axios.get(`/api/product/${id}`);
 
 function Details() {
   const [details, setDetails] = useState({});
+  const [manufacturer, setManufacturer] = useState({});
   const [value, setValue] = useState(0);
 
   const path =
@@ -24,6 +25,7 @@ function Details() {
       const details = await getProductDetails(path);
       const data = details.data[0];
       setDetails(data);
+      setManufacturer(details.data[0].manufacturer);
       setValue(data.rating);
     };
     getData();
@@ -35,7 +37,7 @@ function Details() {
         <CardActionArea>
           <CardMedia
             component='img'
-            alt='Contemplative Reptile'
+            alt={`imagen de la camara ${manufacturer.manufacturer} ${details.product}`}
             image={details.image}
             title='Contemplative Reptile'
           />
@@ -55,13 +57,13 @@ function Details() {
             </div>
             <Typography component='h3'>{details.price} €</Typography>
             <Typography variant='body2' color='textSecondary' component='p'>
-              Fabricante: {details.manufacturer}
+              Fabricante: {manufacturer.manufacturer}
             </Typography>
             <Typography variant='body2' color='textSecondary' component='p'>
-              CIF: {details.cif}
+              CIF: {manufacturer.cif}
             </Typography>
             <Typography variant='body2' color='textSecondary' component='p'>
-              Dirección: {details.address}
+              Dirección: {manufacturer.address}
             </Typography>
           </CardContent>
         </CardActionArea>

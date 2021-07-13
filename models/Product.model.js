@@ -1,104 +1,22 @@
-const mariadb = require("mariadb");
-const pool = mariadb.createPool({
-  host: process.env.SQL_DATABASE_URL,
-  user: process.env.SQL_DATABASE_USER,
-  password: process.env.SQL_DATABASE_PASS,
-  database: process.env.SQL_DATABASE_NAME,
-  port: process.env.SQL_DATABASE_PORT,
-  connectionLimit: 5,
-});
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../db");
+const Manufacturer = require("./Manufacturer.model");
 
-const Product = {
-  getProduct: async (id) => {
-    let conn;
-    let res;
-    try {
-      conn = await pool.getConnection();
-      const sql_query =
-        "SELECT p.id_product,p.product,p.image,p.rating,p.price,m.manufacturer,m.cif,m.address FROM products as p INNER JOIN manufactures as m ON p.manufacturer_id = m.id_manufacturer WHERE p.id_product = ?";
-      res = await conn.query(sql_query, [id]);
-    } catch (err) {
-      res = err.message;
-    } finally {
-      if (conn) conn.end();
-    }
-    return res;
+class Product extends Model {}
+Product.init(
+  {
+    product: DataTypes.STRING(50),
+    image: DataTypes.STRING(255),
+    rating: DataTypes.INTEGER,
+    price: DataTypes.FLOAT,
+    manufacturerId: DataTypes.INTEGER,
   },
-  getAllProducts: async () => {
-    let conn;
-    let res;
-    try {
-      conn = await pool.getConnection();
-      const sql_query =
-        "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM products as p INNER JOIN manufactures as m ON p.manufacturer_id = m.id_manufacturer";
-      res = await conn.query(sql_query);
-    } catch (err) {
-      throw err;
-    } finally {
-      if (conn) conn.end();
-    }
-    return res;
-  },
-  getAllManufacturers: async () => {
-    let conn;
-    let res;
-    try {
-      conn = await pool.getConnection();
-      const sql_query =
-        "SELECT id_manufacturer, manufacturer, cif, address FROM manufactures";
-      res = await conn.query(sql_query);
-    } catch (err) {
-      throw err;
-    } finally {
-      if (conn) conn.end();
-    }
-    return res;
-  },
-  getManufacturerProducts: async (id) => {
-    let conn;
-    let res;
-    if (isNaN(parseInt(id))) {
-      try {
-        conn = await pool.getConnection();
-        const sql_query =
-          "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.manufacturer = ?";
-        res = await conn.query(sql_query, [id]);
-      } catch (err) {
-        throw err;
-      } finally {
-        if (conn) conn.end();
-      }
-      return res;
-    } else {
-      try {
-        conn = await pool.getConnection();
-        const sql_query =
-          "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.id_manufacturer = ?";
-        res = await conn.query(sql_query, [id]);
-      } catch (err) {
-        throw err;
-      } finally {
-        if (conn) conn.end();
-      }
-      return res;
-    }
-  },
-  getSearchProducts: async (search) => {
-    let conn;
-    let res;
+  {
+    sequelize,
+    modelName: "product",
+  }
+);
 
-    try {
-      conn = await pool.getConnection();
-      const sql_query =
-        "SELECT p.id_product,p.product,p.rating,p.price,m.manufacturer FROM manufactures as m INNER JOIN products as p ON p.manufacturer_id = m.id_manufacturer WHERE m.manufacturer REGEXP ? OR p.product REGEXP ?";
-      res = await conn.query(sql_query, [search, search]);
-    } catch (err) {
-      throw err;
-    } finally {
-      if (conn) conn.end();
-    }
-    return res;
-  },
-};
+Product.Manufacturer = Product.belongsTo(Manufacturer);
 
 module.exports = Product;

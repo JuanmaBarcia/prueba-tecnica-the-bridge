@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
+const sequelize = require("./db");
+
 const app = express();
 const port = process.env.PORT || 5000;
 const routerApi = require("./routes/api.routes");
@@ -20,4 +22,12 @@ app.get("*", (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`API listening at http://localhost:${port}`);
+  sequelize
+    .authenticate()
+    .then(() => {
+      console.log("Conexión base de datos por sequalize");
+    })
+    .catch((error) => {
+      console.log("Se ha producido un error", error);
+    });
 });

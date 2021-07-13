@@ -156,8 +156,11 @@ function Products(props) {
       setResults(products.data);
       if (products.length !== 0) {
         const data = products.data.map((product) => ({
-          id: product.id_product,
-          name: product.manufacturer + " " + product.product,
+          id: product.id,
+          name:
+            (product.manufacturer.manufacturer || product.manufacturer) +
+            " " +
+            product.product,
           relevancia: product.rating,
           precio: product.price,
         }));
@@ -188,7 +191,9 @@ function Products(props) {
 
   return (
     <div className='Products'>
-      <h1>{props.title ? props.title : manufacturer}</h1>
+      <h1>
+        {props.title ? props.title : `Cámaras ${manufacturer.manufacturer}`}
+      </h1>
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <TableContainer>
