@@ -134,7 +134,7 @@ function Manufacturers() {
     const getData = async () => {
       const manufacturers = await getManufacturers();
       const data = manufacturers.data.map((manufacturer) => ({
-        id: manufacturer.id_manufacturer,
+        id: manufacturer.id,
         name: manufacturer.manufacturer,
         cif: manufacturer.cif,
         address: manufacturer.address,
