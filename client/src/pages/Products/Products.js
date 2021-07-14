@@ -66,7 +66,7 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead data-testid='th'>
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
@@ -77,7 +77,8 @@ function EnhancedTableHead(props) {
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}>
+              onClick={createSortHandler(headCell.id)}
+              data-testid={headCell.label}>
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
@@ -214,7 +215,9 @@ function Products(props) {
                     return (
                       <TableRow hover tabIndex={-1} key={row.name}>
                         <TableCell>
-                          <Link to={labelHref}>{row.name}</Link>
+                          <Link to={labelHref} data-testid='link'>
+                            {row.name}
+                          </Link>
                         </TableCell>
                         <TableCell className='rating'>
                           <Rating

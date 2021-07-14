@@ -10,7 +10,7 @@ import SearchPage from "../../pages/SearchPage/SearchPage";
 
 function Main() {
   return (
-    <div className='Main wrapper'>
+    <div className='Main wrapper' data-testid='main'>
       <Switch>
         <Route exact path='/'>
           <Redirect to='/products' />

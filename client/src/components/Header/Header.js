@@ -8,7 +8,7 @@ import Search from "../Search/Search";
 
 function Header() {
   return (
-    <div className='Header'>
+    <div className='Header' data-testid='header'>
       <Link to='/products'>
         <img src={process.env.PUBLIC_URL + "/logo.png"} alt='Logo' />
       </Link>

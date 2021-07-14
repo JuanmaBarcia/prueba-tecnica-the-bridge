@@ -37,13 +37,18 @@ function Details() {
         <CardActionArea>
           <CardMedia
             component='img'
-            alt={`imagen de la camara ${manufacturer.manufacturer} ${details.product}`}
+            alt={`imagen de la cámara ${manufacturer.manufacturer} ${details.product}`}
             image={details.image}
-            title='Contemplative Reptile'
+            title={`${manufacturer.manufacturer} ${details.product}`}
+            data-testid='imagen'
           />
           <CardContent>
             <div>
-              <Typography gutterBottom variant='h5' component='h2'>
+              <Typography
+                gutterBottom
+                variant='h5'
+                component='h2'
+                data-testid='title'>
                 {details.product}
               </Typography>
               <Rating
@@ -53,16 +58,31 @@ function Details() {
                 onChange={(event, newValue) => {
                   setValue(newValue);
                 }}
+                data-testid='rating'
               />
             </div>
-            <Typography component='h3'>{details.price} €</Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
+            <Typography component='h3' data-testid='price'>
+              {details.price} €
+            </Typography>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              data-testid='manufacturer'>
               Fabricante: {manufacturer.manufacturer}
             </Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              data-testid='cif'>
               CIF: {manufacturer.cif}
             </Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              data-testid='address'>
               Dirección: {manufacturer.address}
             </Typography>
           </CardContent>

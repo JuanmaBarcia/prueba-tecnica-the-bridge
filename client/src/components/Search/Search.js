@@ -56,20 +56,25 @@ function Search() {
 
   return (
     <div className='Search'>
-      <Paper component='form' className={classes.root} onSubmit={handleSubmit}>
+      <Paper
+        component='form'
+        className={classes.root}
+        onSubmit={handleSubmit}
+        data-testid='form'>
         <InputBase
           className={classes.input}
           placeholder='Búsqueda'
           inputProps={{ "aria-label": "busqueda" }}
           name='searchInput'
           onChange={handleChange}
+          data-testid='input'
         />
         <Divider className={classes.divider} orientation='vertical' />
         <IconButton
           type='submit'
           className={classes.iconButton}
           aria-label='search'>
-          <Link to={`/search/${search}`}>
+          <Link to={`/search/${search}`} data-testid='btn'>
             <SearchIcon />
           </Link>
         </IconButton>

@@ -4,7 +4,7 @@ import Copyright from "../Copyright/Copyright";
 
 function Footer() {
   return (
-    <div className='Footer'>
+    <div className='Footer' data-testid='footer'>
       <Copyright />
     </div>
   );
