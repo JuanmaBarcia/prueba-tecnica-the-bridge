@@ -9,6 +9,7 @@ import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 
+// API queries
 const getProducts = async () => await axios.get("/api/products");
 const getManufacturers = async () => await axios.get(`/api/manufacturers`);
 const getManufacturerProducts = async (id) =>
