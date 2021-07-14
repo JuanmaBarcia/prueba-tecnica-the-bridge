@@ -16,6 +16,15 @@ $viewport-desktop: 960px;
   width: $viewport-phone;
 }
 
+h1 {
+  margin-bottom: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+}
+
 @media screen and (min-width: $viewport-tablet + 1px) and (max-width: $viewport-desktop - 1px) {
   .wrapper {
     width: ($viewport-tablet) - 25px;

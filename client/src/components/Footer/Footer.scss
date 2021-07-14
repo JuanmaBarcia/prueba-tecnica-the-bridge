@@ -5,7 +5,8 @@
   justify-content: center;
   width: 100%;
   padding: 10px 0;
-  border-top: 1px solid;
+  border-top: 1px solid rgba(224, 224, 224, 1);
   margin-top: 20px;
-  background-color: #fff;
+  background: #ffffff;
+  box-shadow: inset 6px 6px 12px #cccccc, inset -6px -6px 12px #ffffff;
 }

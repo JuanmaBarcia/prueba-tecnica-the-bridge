@@ -1,13 +1,33 @@
 .Details {
   .MuiCardContent-root {
-    // display: flex;
-    // flex-wrap: wrap;
     div {
       display: flex;
       justify-content: space-between;
     }
     h3 {
       margin-bottom: 10px;
+    }
+  }
+  .MuiCardMedia-media {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .MuiPaper-root.MuiCard-root.MuiPaper-elevation1.MuiPaper-rounded {
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 9px 9px 45px #cfcfcf, -9px -9px 45px #ffffff;
+  }
+  .MuiCardContent-root {
+    background: #ffffff;
+    box-shadow: inset 9px 9px 10px #cfcfcf, inset -9px -9px 10px #ffffff;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  .Details {
+    .MuiCardMedia-media {
+      width: 70%;
+      margin: 0 auto;
     }
   }
 }
