@@ -7,6 +7,7 @@
   }
   a {
     text-decoration: none;
+    color: rgba(0, 0, 0, 0.87);
   }
   .MuiRating-root {
     font-size: 1rem;
@@ -14,5 +15,11 @@
   }
   td.rating {
     text-align: right;
+  }
+}
+
+@media screen and (min-width: 565px) and (max-width: 959px) {
+  .MuiTableRow-root {
+    height: 6.8vh;
   }
 }

@@ -51,7 +51,6 @@ function Search() {
     e.preventDefault();
     const input = e.target.elements.searchInput.value;
     getSearch(input);
-    e.target.reset();
   };
 
   return (

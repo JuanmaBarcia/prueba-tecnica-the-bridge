@@ -9,11 +9,21 @@ import Search from "../Search/Search";
 function Header() {
   return (
     <div className='Header' data-testid='header'>
-      <Link to='/products'>
-        <img src={process.env.PUBLIC_URL + "/logo.png"} alt='Logo' />
-      </Link>
-      <Search />
-      <Nav />
+      <div className='mobile_menu'>
+        <Link to='/products'>
+          <img src={process.env.PUBLIC_URL + "/logo.png"} alt='Logo' />
+        </Link>
+        <Search />
+        <Nav />
+      </div>
+      <div className='desktop_menu'>
+        <Link to='/products'>
+          <img src={process.env.PUBLIC_URL + "/logo.png"} alt='Logo' />
+        </Link>
+        <Link to='/products'>Productos</Link>
+        <Link to='/manufacturers'>Fabricantes</Link>
+        <Search />
+      </div>
     </div>
   );
 }

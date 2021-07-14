@@ -1,6 +1,18 @@
 .Search {
+  form.MuiPaper-root.makeStyles-root-1.MuiPaper-elevation1.MuiPaper-rounded {
+    border-radius: 5px;
+    background: #ffffff;
+    box-shadow: 6px 6px 12px #cccccc, -6px -6px 12px #ffffff;
+  }
   form {
     width: unset;
     padding: unset;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  .Search {
+    margin-left: auto;
+    margin-right: 20px;
   }
 }
