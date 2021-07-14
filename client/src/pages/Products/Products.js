@@ -220,7 +220,11 @@ function Products(props) {
                           </Link>
                         </TableCell>
                         <TableCell className='rating'>
-                          <Rating name='half-rating' value={row.relevancia} />
+                          <Rating
+                            name='read-only'
+                            value={row.relevancia}
+                            readOnly
+                          />
                         </TableCell>
                         <TableCell align='right'>{row.precio} €</TableCell>
                       </TableRow>

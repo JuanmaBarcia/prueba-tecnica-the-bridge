@@ -49,15 +49,7 @@ function Details() {
               data-testid='title'>
               {details.product}
             </Typography>
-            <Rating
-              name='half-rating'
-              precision={0.5}
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              data-testid='rating'
-            />
+            <Rating name='read-only' value={value} readOnly />
           </div>
           <Typography component='h3' data-testid='price'>
             {details.price} €
