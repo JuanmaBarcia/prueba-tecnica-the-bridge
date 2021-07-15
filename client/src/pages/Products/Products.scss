@@ -16,6 +16,10 @@
   td.rating {
     text-align: right;
   }
+  .MuiCircularProgress-root {
+    width: 100px !important;
+    height: 100px !important;
+  }
 }
 
 @media screen and (min-width: 565px) and (max-width: 959px) {

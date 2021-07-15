@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const getProductDetails = async (id) => await axios.get(`/api/product/${id}`);
 
@@ -15,6 +16,7 @@ function Details() {
   const [details, setDetails] = useState({});
   const [manufacturer, setManufacturer] = useState({});
   const [value, setValue] = useState(0);
+  const [spinner, setSpinner] = useState(true);
 
   const path =
     window.location.href.split("/")[window.location.href.split("/").length - 1];
@@ -28,55 +30,60 @@ function Details() {
       setValue(data.rating);
     };
     getData();
+    setSpinner(false);
   }, [path]);
 
   return (
     <div className='Details'>
-      <Card>
-        <CardMedia
-          component='img'
-          alt={`imagen de la cámara ${manufacturer.manufacturer} ${details.product}`}
-          image={details.image}
-          title={`${manufacturer.manufacturer} ${details.product}`}
-          data-testid='imagen'
-        />
-        <CardContent>
-          <div>
-            <Typography
-              gutterBottom
-              variant='h5'
-              component='h2'
-              data-testid='title'>
-              {details.product}
+      {spinner ? (
+        <CircularProgress />
+      ) : (
+        <Card>
+          <CardMedia
+            component='img'
+            alt={`imagen de la cámara ${manufacturer.manufacturer} ${details.product}`}
+            image={details.image}
+            title={`${manufacturer.manufacturer} ${details.product}`}
+            data-testid='imagen'
+          />
+          <CardContent>
+            <div>
+              <Typography
+                gutterBottom
+                variant='h5'
+                component='h2'
+                data-testid='title'>
+                {details.product}
+              </Typography>
+              <Rating name='read-only' value={value} readOnly />
+            </div>
+            <Typography component='h3' data-testid='price'>
+              {details.price} €
             </Typography>
-            <Rating name='read-only' value={value} readOnly />
-          </div>
-          <Typography component='h3' data-testid='price'>
-            {details.price} €
-          </Typography>
-          <Typography
-            variant='body2'
-            color='textSecondary'
-            component='p'
-            data-testid='manufacturer'>
-            Fabricante: {manufacturer.manufacturer}
-          </Typography>
-          <Typography
-            variant='body2'
-            color='textSecondary'
-            component='p'
-            data-testid='cif'>
-            CIF: {manufacturer.cif}
-          </Typography>
-          <Typography
-            variant='body2'
-            color='textSecondary'
-            component='p'
-            data-testid='address'>
-            Dirección: {manufacturer.address}
-          </Typography>
-        </CardContent>
-      </Card>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              data-testid='manufacturer'>
+              Fabricante: {manufacturer.manufacturer}
+            </Typography>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              data-testid='cif'>
+              CIF: {manufacturer.cif}
+            </Typography>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              data-testid='address'>
+              Dirección: {manufacturer.address}
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

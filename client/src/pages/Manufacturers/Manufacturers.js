@@ -15,6 +15,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const getManufacturers = async () => await axios.get("/api/manufacturers");
 
@@ -129,6 +130,7 @@ function Manufacturers() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const [spinner, setSpinner] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -140,6 +142,7 @@ function Manufacturers() {
         address: manufacturer.address,
       }));
       setRows(data);
+      setSpinner(false);
     };
     getData();
   }, []);
@@ -164,54 +167,63 @@ function Manufacturers() {
 
   return (
     <div className='Manufacturers'>
-      <h1>Fabricantes</h1>
-      <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <TableContainer>
-            <Table aria-labelledby='tableTitle' aria-label='enhanced table'>
-              <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    const labelHref = `/manufacturer/${row.id}`;
+      {spinner ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <h1>Fabricantes</h1>
+          <div className={classes.root}>
+            <Paper className={classes.paper}>
+              <TableContainer>
+                <Table aria-labelledby='tableTitle' aria-label='enhanced table'>
+                  <EnhancedTableHead
+                    classes={classes}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  />
+                  <TableBody>
+                    {stableSort(rows, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        const labelHref = `/manufacturer/${row.id}`;
 
-                    return (
-                      <TableRow hover tabIndex={-1} key={row.name}>
-                        <TableCell>
-                          <Link to={labelHref}>{row.name}</Link>
-                        </TableCell>
-                        <TableCell align='center'>{row.cif}</TableCell>
-                        <TableCell align='right'>{row.address}</TableCell>
+                        return (
+                          <TableRow hover tabIndex={-1} key={row.name}>
+                            <TableCell>
+                              <Link to={labelHref}>{row.name}</Link>
+                            </TableCell>
+                            <TableCell align='center'>{row.cif}</TableCell>
+                            <TableCell align='right'>{row.address}</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow>
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25]}
-            component='div'
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage=''
-          />
-        </Paper>
-      </div>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25]}
+                component='div'
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage=''
+              />
+            </Paper>
+          </div>
+        </>
+      )}
     </div>
   );
 }

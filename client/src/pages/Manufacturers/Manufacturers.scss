@@ -6,6 +6,10 @@
   span.MuiButtonBase-root.MuiTableSortLabel-root {
     font-weight: bold;
   }
+  .MuiCircularProgress-root {
+    width: 100px !important;
+    height: 100px !important;
+  }
 }
 
 @media screen and (min-width: 961px) {
