@@ -1,7 +1,8 @@
-/*
- * SearchPage css File
-*/
-
 .SearchPage {
-    /* propertys here */
+}
+
+@media screen and (min-width: 961px) {
+  .SearchPage {
+    width: 100%;
+  }
 }

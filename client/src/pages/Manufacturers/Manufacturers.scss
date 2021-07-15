@@ -3,4 +3,13 @@
     text-decoration: none;
     color: rgba(0, 0, 0, 0.87);
   }
+  span.MuiButtonBase-root.MuiTableSortLabel-root {
+    font-weight: bold;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  .Manufacturers {
+    width: 100%;
+  }
 }
