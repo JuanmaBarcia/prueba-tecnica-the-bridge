@@ -16,6 +16,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import Rating from "@material-ui/lab/Rating";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -137,6 +138,7 @@ function Products(props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
   const [manufacturer, setManufacturer] = useState("");
+  const [spinner, setSpinner] = useState(true);
 
   const path =
     window.location.href.split("/")[window.location.href.split("/").length - 1];
@@ -166,6 +168,7 @@ function Products(props) {
           precio: product.price,
         }));
         setRows(data);
+        setSpinner(false);
       }
     };
     getData();
@@ -192,64 +195,73 @@ function Products(props) {
 
   return (
     <div className='Products'>
-      <h1>
-        {props.title ? props.title : `Cámaras ${manufacturer.manufacturer}`}
-      </h1>
-      <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <TableContainer>
-            <Table aria-labelledby='tableTitle' aria-label='enhanced table'>
-              <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    const labelHref = `/product/${row.id}`;
+      {spinner ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <h1>
+            {props.title ? props.title : `Cámaras ${manufacturer.manufacturer}`}
+          </h1>
+          <div className={classes.root}>
+            <Paper className={classes.paper}>
+              <TableContainer>
+                <Table aria-labelledby='tableTitle' aria-label='enhanced table'>
+                  <EnhancedTableHead
+                    classes={classes}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={rows.length}
+                  />
+                  <TableBody>
+                    {stableSort(rows, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        const labelHref = `/product/${row.id}`;
 
-                    return (
-                      <TableRow hover tabIndex={-1} key={row.name}>
-                        <TableCell>
-                          <Link to={labelHref} data-testid='link'>
-                            {row.name}
-                          </Link>
-                        </TableCell>
-                        <TableCell className='rating'>
-                          <Rating
-                            name='read-only'
-                            value={row.relevancia}
-                            readOnly
-                          />
-                        </TableCell>
-                        <TableCell align='right'>{row.precio} €</TableCell>
+                        return (
+                          <TableRow hover tabIndex={-1} key={row.name}>
+                            <TableCell>
+                              <Link to={labelHref} data-testid='link'>
+                                {row.name}
+                              </Link>
+                            </TableCell>
+                            <TableCell className='rating'>
+                              <Rating
+                                name='read-only'
+                                value={row.relevancia}
+                                readOnly
+                              />
+                            </TableCell>
+                            <TableCell align='right'>{row.precio} €</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow>
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25]}
-            component='div'
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage=''
-          />
-        </Paper>
-      </div>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25]}
+                component='div'
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage=''
+              />
+            </Paper>
+          </div>
+        </>
+      )}
     </div>
   );
 }
