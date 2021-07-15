@@ -1,12 +1,9 @@
 .Footer {
-  position: fixed;
-  bottom: 0;
   display: flex;
   justify-content: center;
   width: 100%;
   padding: 10px 0;
   border-top: 1px solid rgba(224, 224, 224, 1);
-  margin-top: 20px;
   background: #ffffff;
   box-shadow: inset 6px 6px 12px #cccccc, inset -6px -6px 12px #ffffff;
 }

@@ -10,8 +10,11 @@ $viewport-tablet: 564px;
 $viewport-desktop: 960px;
 
 .wrapper {
-  margin: 0 auto;
+  margin: 90px auto 20px;
   width: $viewport-phone;
+  min-height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
 }
 
 h1 {
@@ -32,5 +35,7 @@ a {
 @media screen and (min-width: $viewport-desktop + 1px) {
   .wrapper {
     width: ($viewport-desktop) - 60px;
+    margin: 150px auto 30px;
+    min-height: calc(100vh - 220px);
   }
 }
